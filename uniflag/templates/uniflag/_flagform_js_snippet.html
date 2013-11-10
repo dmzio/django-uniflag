@@ -1,0 +1,36 @@
+{% load i18n %}
+{% load static %}
+
+<script src="http://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
+
+<script src="{% static "js/flag-form.js" %}"></script>
+<script>
+    if (typeof uniflag_loaded === 'undefined') {
+        var uniflag_loaded = true;
+
+        $(function () {
+            $("head").append("<link />");
+            var css = $("head").children(":last");
+            css.attr({
+                rel: "stylesheet",
+                type: "text/css",
+                href: "http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css"
+            });
+
+            $("head").append("<link />");
+            css = $("head").children(":last");
+            css.attr({
+                rel: "stylesheet",
+                type: "text/css",
+                href: "{% static "css/uniflag.css" %}"
+            });
+
+            prepare_flag_form("{% url 'flag_add' %}");
+            enhance_flag_form("{% static "img" %}");
+        });
+
+    } else {
+        console.log('UniFlag scripts already loaded')
+    }
+
+</script>
