@@ -20,11 +20,11 @@ def add_flag_for(obj, user, flag_type):
         'obj_id': obj.id,
         'commented': conf.UNIFLAG_TYPES[flag_type]['commented'],
         'modal': conf.UNIFLAG_TYPES[flag_type]['modal'],
+        'moderated': conf.UNIFLAG_TYPES[flag_type]['moderated'],
     }
 
     try:
         existent_flag = Flag.objects.get(content_type=ctx['obj_type'], object_id=obj.id, flag_type=flag_type, user=user)
-        print existent_flag.status
         ctx.update({'flag': existent_flag})
     except ObjectDoesNotExist:
         pass

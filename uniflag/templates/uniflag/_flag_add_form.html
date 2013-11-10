@@ -2,7 +2,9 @@
 {% load static %}
 {% if flag %}
     <div class="uniflag-show-{{ flag_type_idx }}" id="uniflag-show-{{ flag_type_idx }}-{{ obj_type.id }}-{{ obj_id }}">
-        {{ flag_name }} {{ flag.get_status_display }}
+       <span class="uniflag-type-name">{{ flag_name }}</span> <span class="{{ flag.value }}">{{ flag.get_value_display }}</span>
+        {% if moderated %}<span>{{ flag.get_status_display }}</span>{% endif %}
+    {% if commented %}<span class="uniflag-comment">{{ flag.comment }}</span>{% endif %}
     </div>
 {% else %}
     {% if modal %}

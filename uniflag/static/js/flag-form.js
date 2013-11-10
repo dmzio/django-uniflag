@@ -50,6 +50,7 @@ function enhance_flag_form(img_dir_url) {
         }
         var title = $(inp_label).html();
         var btn = $("<button class=\"btn uniflag-inp-btn\" id=\"btn-for-" + $(this).attr('id') + "\">" + title + "</button>").insertAfter(this);
+        btn.attr('title', title);
         btn.addClass($(this).attr('class'));
         if ($(this).prop("checked")) {
             btn.addClass('active');

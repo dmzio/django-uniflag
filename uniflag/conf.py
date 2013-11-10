@@ -20,7 +20,7 @@ UNIFLAG_TYPES = getattr(settings, "UNIFLAG_TYPES", {
         ]
     },
     2: {
-        'name': _('Like'),
+        'name': _('Likes'),
         'moderated': False,
         'commented': False,
         'modal': False,
