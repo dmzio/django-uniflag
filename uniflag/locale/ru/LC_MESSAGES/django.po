@@ -1,0 +1,68 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-11-15 20:35+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+
+#: admin.py:29
+msgid "Flag values"
+msgstr "значения флага"
+
+#: conf.py:5
+msgid "flagged"
+msgstr "отмечено"
+
+#: conf.py:6
+msgid "flag rejected by moderator"
+msgstr "отметка отменена модератором"
+
+#: conf.py:7
+msgid "content removed by creator"
+msgstr "содержимое удалено создателем"
+
+#: conf.py:8
+msgid "content removed by moderator"
+msgstr "содержимое удалено модератором"
+
+#: conf.py:13
+msgid "Complain"
+msgstr "Жалоба"
+
+#: conf.py:18
+msgid "Spam"
+msgstr "Спам"
+
+#: conf.py:19
+msgid "Obsolete info"
+msgstr "Устаревшая информация"
+
+#: conf.py:23
+msgid "Likes"
+msgstr "Голосование"
+
+#: conf.py:28
+msgid "Like"
+msgstr "Нравится"
+
+#: conf.py:29
+msgid "Dislike"
+msgstr "Не нравится"
+
+#: templates/uniflag/_flag_add_form.html:33
+msgid "Flag Comment"
+msgstr "Комментарий"
