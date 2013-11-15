@@ -10,16 +10,14 @@ from django.utils.translation import ugettext_lazy as _
 from uniflag import conf
 
 
-flag_types = [(k, conf.UNIFLAG_TYPES[k]['name']) for k in conf.UNIFLAG_TYPES.keys()]
-
-all_values = []
-for k in conf.UNIFLAG_TYPES:
-    for i in conf.UNIFLAG_TYPES[k]['values']:
-        all_values.append(i)
-
-
 class Flag(models.Model):
-    flag_type = models.PositiveSmallIntegerField(choices=flag_types, default=1)
+    FLAG_TYPES = [(k, conf.UNIFLAG_TYPES[k]['name']) for k in conf.UNIFLAG_TYPES.keys()]
+    ALL_VALUES = []
+    for k in conf.UNIFLAG_TYPES:
+        for i in conf.UNIFLAG_TYPES[k]['values']:
+            ALL_VALUES.append(i)
+
+    flag_type = models.PositiveSmallIntegerField(choices=FLAG_TYPES, default=1)
 
     content_type = models.ForeignKey(ContentType)
     object_id = models.PositiveIntegerField()
@@ -28,7 +26,7 @@ class Flag(models.Model):
     user = models.ForeignKey(User)  # user flagging the content
     when_added = models.DateTimeField(default=datetime.now)
 
-    value = models.CharField(max_length=20, choices=all_values)
+    value = models.CharField(max_length=20, choices=ALL_VALUES)
     comment = models.TextField(blank=True)  # comment by the flagger
 
     status = models.CharField(max_length=1, choices=conf.STATUS, default="1", blank=True)
@@ -39,6 +37,6 @@ class Flag(models.Model):
         unique_together = [("content_type", "object_id", "flag_type", "user")]
 
     def __unicode__(self):
-        return u'{} - {}'.format(self.content_object, self.get_flag_type_display())
+        return u'{0} - {1}: {2}'.format(self.content_object, self.get_flag_type_display(), self.get_value_display())
 
 

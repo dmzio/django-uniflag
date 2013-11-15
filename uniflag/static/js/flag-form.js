@@ -2,6 +2,7 @@ function prepare_flag_form(url) {
     var reveal_btns = $("[id*='uniflag-reveal-btn-']");
     var modal_add_forms = $("[id*='uniflag-add-form-modal-']");
     var inline_add_forms = $("[id*='uniflag-add-form-inline-']");
+    var ok_message = '<span class="uniflag-ok-message">OK</span>'
     reveal_btns.show();
 
     modal_add_forms.dialog({
@@ -13,6 +14,8 @@ function prepare_flag_form(url) {
                 var part_id = partial_id($(this).attr('id'));
                 $.post(url, modal_add_forms.filter("[id*='" + part_id + "']").children('form').serialize()).done(function (data) {
                     reveal_btns.filter("[id*='" + part_id + "']").hide();
+                    reveal_btns.after(ok_message);
+
                 });
             },
             Cancel: function () {
@@ -31,6 +34,7 @@ function prepare_flag_form(url) {
         var form_el = $(this).parents('form');
         $.post(url, form_el.serialize()).done(function (data) {
             form_el.hide();
+            form_el.after(ok_message);
         });
     });
 
