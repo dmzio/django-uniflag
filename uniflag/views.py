@@ -1,6 +1,10 @@
+from django.core.exceptions import PermissionDenied
 from django.views.generic.edit import CreateView, UpdateView, DeleteView, BaseCreateView, BaseUpdateView
 from uniflag.forms import FlagForm
 from uniflag.models import Flag
+from django.contrib.auth.decorators import login_required
+from django.core.exceptions import PermissionDenied
+from django.utils.decorators import method_decorator
 
 
 import json
@@ -11,7 +15,7 @@ from django.views.generic.edit import CreateView
 
 class AjaxableResponseMixin(object):
     """
-    Mixin to add AJAX support to a form. Stoles from django documentation
+    Mixin to add AJAX support to a form. Stoled from django documentation
     Must be used with an object-based FormView (e.g. CreateView)
     """
     def render_to_json_response(self, context, **response_kwargs):
@@ -36,17 +40,23 @@ class AjaxableResponseMixin(object):
         else:
             return super(AjaxableResponseMixin, self).form_valid(form)
 
-#TODO access control
+
 class FlagCreate(AjaxableResponseMixin, BaseCreateView):
     form_class = FlagForm
     model = Flag
+
     def get_form(self, form_class):
         form = super(FlagCreate, self).get_form(form_class)
         form.instance.user = self.request.user
 
         return form
 
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super(FlagCreate, self).dispatch(*args, **kwargs)
 
+
+# Not used now
 class FlagUpdate(AjaxableResponseMixin, BaseUpdateView):
     form_class = FlagForm
     model = Flag
@@ -55,3 +65,8 @@ class FlagUpdate(AjaxableResponseMixin, BaseUpdateView):
         form = super(FlagUpdate, self).get_form(form_class)
         form.instance.user = self.request.user
         return form
+
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        raise PermissionDenied  # remake when heeded
+        return super(FlagUpdate, self).dispatch(*args, **kwargs)

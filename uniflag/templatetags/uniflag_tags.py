@@ -12,6 +12,9 @@ def add_flag_for(obj, user, flag_type):
     if flag_type not in conf.UNIFLAG_TYPES:
         raise KeyError('Flag type not in the configured UNIFLAG_TYPES')
 
+    if not conf.USER_CAN_FLAG_FUNC(user, obj, flag_type):
+        return {'flag_forbidden': True}
+
     ctx = {
         'flag_type_idx': flag_type,
         'values': conf.UNIFLAG_TYPES[flag_type]['values'],

@@ -30,3 +30,24 @@ UNIFLAG_TYPES = getattr(settings, "UNIFLAG_TYPES", {
         ]
     }
 })
+
+
+def user_can_flag(user, obj, flag_type):
+    """
+    whether particular user can set flag for the object or not
+    f.e. forbid flagging of own content
+    """
+    return True
+
+USER_CAN_FLAG = getattr(settings, "USER_CAN_FLAG", None)
+if USER_CAN_FLAG is not None:
+    from importlib import import_module
+    from django.core.exceptions import ImproperlyConfigured
+    module_name = '.'.join(USER_CAN_FLAG.split('.')[:-1])
+    func_name = USER_CAN_FLAG.split('.')[-1]
+    try:
+        USER_CAN_FLAG_FUNC = getattr(import_module(module_name), func_name)
+    except ImportError:
+        raise ImproperlyConfigured('"USER_CAN_FLAG" function can\'t be imported')
+else:
+    USER_CAN_FLAG_FUNC = user_can_flag

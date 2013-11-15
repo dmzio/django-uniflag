@@ -1,32 +1,38 @@
 {% load i18n %}
 {% load static %}
-{% if flag %}
-    <div class="uniflag-show-{{ flag_type_idx }}" id="uniflag-show-{{ flag_type_idx }}-{{ obj_type.id }}-{{ obj_id }}">
-       <span class="uniflag-type-name">{{ flag_name }}</span> <span class="{{ flag.value }}">{{ flag.get_value_display }}</span>
-        {% if moderated %}<span>{{ flag.get_status_display }}</span>{% endif %}
-    {% if commented %}<span class="uniflag-comment">{{ flag.comment }}</span>{% endif %}
-    </div>
-{% else %}
-    {% if modal %}
-        <button hidden="hidden" class="btn"
-                id="uniflag-reveal-btn-{{ flag_type_idx }}-{{ obj_type.id }}-{{ obj_id }}">{{ flag_name }}</button>
+{% if not flag_forbidden %}
+    {% if flag %}
+        <div class="uniflag-show-{{ flag_type_idx }}"
+             id="uniflag-show-{{ flag_type_idx }}-{{ obj_type.id }}-{{ obj_id }}">
+            <span class="uniflag-type-name">{{ flag_name }}</span> <span
+                class="{{ flag.value }}">{{ flag.get_value_display }}</span>
+            {% if moderated %}<span>{{ flag.get_status_display }}</span>{% endif %}
+            {% if commented %}<span class="uniflag-comment">{{ flag.comment }}</span>{% endif %}
+        </div>
+    {% else %}
+        {% if modal %}
+            <button hidden="hidden" class="btn"
+                    id="uniflag-reveal-btn-{{ flag_type_idx }}-{{ obj_type.id }}-{{ obj_id }}">{{ flag_name }}</button>
+        {% endif %}
+        <div id="uniflag-add-form-{% if modal %}modal{% else %}inline{% endif %}-{{ flag_type_idx }}-{{ obj_type.id }}-{{ obj_id }}">
+            <form class="uniflag-form">
+                {% csrf_token %}
+                <input type="hidden" name="content_type" value="{{ obj_type.id }}">
+                <input type="hidden" name="object_id" value="{{ obj_id }}">
+                <input type="hidden" name="flag_type" value="{{ flag_type_idx }}">
+                <input type="hidden" name="status" value="1">
+                {% for val_idx, val_name in values %}
+                    <label for="uniflag-input-{{ flag_type_idx }}-{{ obj_type.id }}-{{ obj_id }}-{{ val_idx }}">{{ val_name }}</label>
+                    <input type="radio" name="value" value="{{ val_idx }}" class="{{ val_idx }}"
+                           id="uniflag-input-{{ flag_type_idx }}-{{ obj_type.id }}-{{ obj_id }}-{{ val_idx }}"
+                           {% if forloop.first and modal %}checked{% endif %}
+                           data-sdb-image="url('{{ STATIC_URL }}img/{{ val_idx }}')">
+                {% endfor %}
+                {% if commented %}
+                    <br/>
+                    <textarea class="" name="comment" title="{% trans "Flag Comment" %}"></textarea>
+                {% endif %}
+            </form>
+        </div>
     {% endif %}
-    <div id="uniflag-add-form-{% if modal %}modal{% else %}inline{% endif %}-{{ flag_type_idx }}-{{ obj_type.id }}-{{ obj_id }}">
-        <form class="uniflag-form">
-            {% csrf_token %}
-            <input type="hidden" name="content_type" value="{{ obj_type.id }}">
-            <input type="hidden" name="object_id" value="{{ obj_id }}">
-            <input type="hidden" name="flag_type" value="{{ flag_type_idx }}">
-            <input type="hidden" name="status" value="1">
-            {% for val_idx, val_name in values %}
-                <label for="uniflag-input-{{ flag_type_idx }}-{{ obj_type.id }}-{{ obj_id }}-{{ val_idx }}">{{ val_name }}</label>
-                <input type="radio" name="value" value="{{ val_idx }}" class="{{ val_idx }}" id="uniflag-input-{{ flag_type_idx }}-{{ obj_type.id }}-{{ obj_id }}-{{ val_idx }}"
-                       {% if forloop.first and modal %}checked{% endif %} data-sdb-image="url('{{ STATIC_URL }}img/{{ val_idx }}')">
-            {% endfor %}
-            {% if commented %}
-                <br />
-                <textarea class="" name="comment" title="{% trans "Flag Comment" %}"></textarea>
-            {% endif %}
-        </form>
-    </div>
 {% endif %}
