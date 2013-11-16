@@ -2,7 +2,7 @@ from distutils.core import setup
 
 setup(
     name='django-uniflag',
-    version='0.1',
+    version='0.1.1',
     packages=['uniflag', 'uniflag.templatetags'],
     url='https://github.com/dmzio/django-uniflag',
     license='GPLv2',
